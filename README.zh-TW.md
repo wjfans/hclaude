@@ -2,9 +2,55 @@
 
 [English](README.md) | **繁體中文**
 
-在 Windows 上，從任何資料夾直接開 [Claude Code](https://claude.com/claude-code)，而且開在 [Herdr](https://herdr.dev) 裡：在檔案總管的路徑列打 `hclaude`，或在資料夾上按右鍵。
+**給 [Herdr](https://herdr.dev) 使用者的 Windows 小工具：在檔案總管裡，一個步驟就把 [Claude Code](https://claude.com/claude-code) 開在 Herdr 裡。**
 
-在檔案總管路徑列打 `claude`，Claude 會開在一般的主控台視窗裡。Herdr 只能管理它自己開的終端機，所以這種 Claude 不會出現在 Herdr 的 spaces 或 agents 清單裡。想在 Herdr 裡開，原本要先開 Herdr、複製資料夾路徑、`cd` 過去，再打 `claude`。`hclaude` 把這些步驟合成一步。
+## 為什麼需要這個工具
+
+### Herdr 是什麼
+
+[Herdr](https://herdr.dev) 是一個用來管理終端機和 AI coding agent 的桌面 app。如果你同時讓好幾個 Claude Code 在不同專案裡工作，Herdr 可以幫你：
+
+- **依專案分類**：每個專案是一個 space，裡面可以有多個 tab 和終端機。
+- **一眼看出每個 Claude 的狀態**：左側的 agents 清單會即時顯示每個 Claude 是工作中、已完成，還是在等你回覆或核准權限。
+- **需要你處理時主動通知**：Claude 卡住等你，或在你沒注意時做完了，Herdr 會發出提示音和通知。點一下就跳到那個 Claude。
+
+[Claude Code](https://claude.com/claude-code) 則是 Anthropic 推出、在終端機裡執行的 AI 程式開發助手，指令是 `claude`。
+
+### 目前的作法有什麼問題
+
+很多人在 Windows 上習慣這樣開 Claude Code：
+
+> 在檔案總管進到專案資料夾 → 在上方路徑列輸入 `claude` → 按 Enter
+
+這樣很快，但 **Claude 會開在一般的主控台視窗裡，不在 Herdr 裡**。Herdr 只會顯示由它自己開啟的終端機，所以：
+
+- Herdr 的 agents 清單看不到這個 Claude，也不會在它需要你時通知你。
+- 已經在跑的 Claude 沒辦法事後搬進 Herdr，只能關掉重開。
+
+要讓 Claude 開在 Herdr 裡，原本必須：
+
+1. 開啟 Herdr
+2. 回到檔案總管，複製專案資料夾的路徑
+3. 在 Herdr 的終端機輸入 `cd <路徑>`
+4. 再輸入 `claude`
+
+每換一個專案就要重複一次，比原本的作法麻煩很多。
+
+### hclaude 怎麼解決
+
+**hclaude 把上面這四個步驟合成一步。** 你的習慣幾乎不用改，只要：
+
+- 在檔案總管路徑列輸入 **`hclaude`**，取代原本的 `claude`；或是
+- 在資料夾上按右鍵，選「**在 Herdr 開啟 Claude**」
+
+Claude Code 就會以這個資料夾開在 Herdr 裡。如果 Herdr 已經有這個專案的 space，會直接在裡面加一個 tab，不會重複建立。
+
+| | 原本在路徑列打 `claude` | 用 hclaude |
+|---|---|---|
+| 怎麼開 | 路徑列打 `claude` | 路徑列打 `hclaude`，或按右鍵 |
+| Claude 開在哪裡 | 獨立的主控台視窗 | Herdr 裡，依專案分好 space |
+| 看得到狀態嗎 | 要自己切過去看 | Herdr 的 agents 清單即時顯示 |
+| 需要你時會通知嗎 | 不會 | 會，有提示音和通知 |
 
 ## 功能
 

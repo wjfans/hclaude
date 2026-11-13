@@ -2,9 +2,55 @@
 
 **English** | [繁體中文](README.zh-TW.md)
 
-Open [Claude Code](https://claude.com/claude-code) inside [Herdr](https://herdr.dev) from any folder on Windows: type `hclaude` in File Explorer's address bar, or right-click the folder.
+**A small Windows tool for [Herdr](https://herdr.dev) users: open [Claude Code](https://claude.com/claude-code) inside Herdr from File Explorer, in one step.**
 
-Without it, a Claude Code session started from File Explorer runs in a plain console window, outside Herdr. Herdr can only manage terminals it started, so that session never shows up in Herdr's spaces or agents list. To get it into Herdr you'd have to open Herdr, copy the folder path, `cd` into it, and then run `claude`. `hclaude` does all of that in one step.
+## Why this exists
+
+### What Herdr is
+
+[Herdr](https://herdr.dev) is a desktop app for terminals and AI coding agents. If you have several Claude Code sessions working in different projects at once, Herdr helps you:
+
+- **Keep projects apart.** Each project is a space, with its own tabs and terminals.
+- **See every Claude's status at a glance.** The agents list on the left shows live whether each one is working, finished, or waiting for your answer or permission.
+- **Get told when you're needed.** When a Claude is waiting on you, or finishes while you're looking elsewhere, Herdr plays a sound and shows a notification. Click it to jump straight there.
+
+[Claude Code](https://claude.com/claude-code) is Anthropic's AI coding assistant that runs in your terminal. Its command is `claude`.
+
+### The problem with the usual way
+
+On Windows, many people start Claude Code like this:
+
+> Open the project folder in File Explorer → type `claude` in the address bar → press Enter
+
+It's quick, but **Claude then runs in a plain console window, not in Herdr**. Herdr only shows terminals it started itself, so:
+
+- Herdr's agents list can't see that Claude, and won't notify you when it needs you.
+- A Claude that's already running can't be moved into Herdr later. You have to close it and start it again.
+
+To start Claude inside Herdr instead, you had to:
+
+1. Open Herdr
+2. Go back to File Explorer and copy the project folder's path
+3. Type `cd <path>` in a Herdr terminal
+4. Type `claude`
+
+You'd repeat all four steps for every project, which is a lot more work than the address-bar habit.
+
+### What hclaude does about it
+
+**hclaude turns those four steps into one.** Your habit barely changes:
+
+- Type **`hclaude`** in File Explorer's address bar instead of `claude`, or
+- Right-click the folder and choose **Open Claude in Herdr**
+
+Claude Code then opens in that folder, inside Herdr. If Herdr already has a space for the project, Claude opens as a new tab there instead of creating a duplicate space.
+
+| | Typing `claude` in the address bar | hclaude |
+|---|---|---|
+| How you start it | Type `claude` | Type `hclaude`, or right-click |
+| Where Claude runs | A separate console window | Inside Herdr, in the project's space |
+| Seeing its status | Switch to its window and look | Live in Herdr's agents list |
+| Notified when it needs you | No | Yes: a sound and a notification |
 
 ## What it does
 
