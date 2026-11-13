@@ -1,145 +1,153 @@
 # hclaude
 
-**English** | [繁體中文](README.zh-TW.md)
+**繁體中文** | [English](README.en.md)
 
-**A small Windows tool for [Herdr](https://herdr.dev) users: open [Claude Code](https://claude.com/claude-code) inside Herdr from File Explorer, in one step.**
+**給 [Herdr](https://herdr.dev) 使用者的 Windows 小工具：在檔案總管裡，一個步驟就把 [Claude Code](https://claude.com/claude-code) 開在 Herdr 裡。**
 
-## Why this exists
+![用 hclaude 開的三個 Claude Code 都在 Herdr 裡：左側依專案分成 space，下方的 agents 清單顯示每個 Claude 的狀態，右下角是 Claude 需要你時跳出的通知](docs/screenshot-agents.png)
 
-### What Herdr is
+*三個專案各自用 `hclaude` 開了 Claude。左下的 agents 清單顯示：mobile-app 在等你回覆（Needs you），payment-api 已經做完（Done），shop-frontend 還在工作中（Working）。右下角是 Herdr 跳出的通知。*
 
-[Herdr](https://herdr.dev) is a desktop app for terminals and AI coding agents. If you have several Claude Code sessions working in different projects at once, Herdr helps you:
+## 為什麼需要這個工具
 
-- **Keep projects apart.** Each project is a space, with its own tabs and terminals.
-- **See every Claude's status at a glance.** The agents list on the left shows live whether each one is working, finished, or waiting for your answer or permission.
-- **Get told when you're needed.** When a Claude is waiting on you, or finishes while you're looking elsewhere, Herdr plays a sound and shows a notification. Click it to jump straight there.
+### Herdr 是什麼
 
-[Claude Code](https://claude.com/claude-code) is Anthropic's AI coding assistant that runs in your terminal. Its command is `claude`.
+[Herdr](https://herdr.dev) 是一個用來管理終端機和 AI coding agent 的桌面 app。如果你同時讓好幾個 Claude Code 在不同專案裡工作，Herdr 可以幫你：
 
-### The problem with the usual way
+- **依專案分類**：每個專案是一個 space，裡面可以有多個 tab 和終端機。
+- **一眼看出每個 Claude 的狀態**：左側的 agents 清單會即時顯示每個 Claude 是工作中、已完成，還是在等你回覆或核准權限。
+- **需要你處理時主動通知**：Claude 卡住等你，或在你沒注意時做完了，Herdr 會發出提示音和通知。點一下就跳到那個 Claude。
 
-On Windows, many people start Claude Code like this:
+[Claude Code](https://claude.com/claude-code) 則是 Anthropic 推出、在終端機裡執行的 AI 程式開發助手，指令是 `claude`。
 
-> Open the project folder in File Explorer → type `claude` in the address bar → press Enter
+### 目前的作法有什麼問題
 
-It's quick, but **Claude then runs in a plain console window, not in Herdr**. Herdr only shows terminals it started itself, so:
+很多人在 Windows 上習慣這樣開 Claude Code：
 
-- Herdr's agents list can't see that Claude, and won't notify you when it needs you.
-- A Claude that's already running can't be moved into Herdr later. You have to close it and start it again.
+> 在檔案總管進到專案資料夾 → 在上方路徑列輸入 `claude` → 按 Enter
 
-To start Claude inside Herdr instead, you had to:
+這樣很快，但 **Claude 會開在一般的主控台視窗裡，不在 Herdr 裡**。Herdr 只會顯示由它自己開啟的終端機，所以：
 
-1. Open Herdr
-2. Go back to File Explorer and copy the project folder's path
-3. Type `cd <path>` in a Herdr terminal
-4. Type `claude`
+- Herdr 的 agents 清單看不到這個 Claude，也不會在它需要你時通知你。
+- 已經在跑的 Claude 沒辦法事後搬進 Herdr，只能關掉重開。
 
-You'd repeat all four steps for every project, which is a lot more work than the address-bar habit.
+要讓 Claude 開在 Herdr 裡，原本必須：
 
-### What hclaude does about it
+1. 開啟 Herdr
+2. 回到檔案總管，複製專案資料夾的路徑
+3. 在 Herdr 的終端機輸入 `cd <路徑>`
+4. 再輸入 `claude`
 
-**hclaude turns those four steps into one.** Your habit barely changes:
+每換一個專案就要重複一次，比原本的作法麻煩很多。
 
-- Type **`hclaude`** in File Explorer's address bar instead of `claude`, or
-- Right-click the folder and choose **Open Claude in Herdr**
+### hclaude 怎麼解決
 
-Claude Code then opens in that folder, inside Herdr. If Herdr already has a space for the project, Claude opens as a new tab there instead of creating a duplicate space.
+**hclaude 把上面這四個步驟合成一步。** 你的習慣幾乎不用改，只要：
 
-| | Typing `claude` in the address bar | hclaude |
+- 在檔案總管路徑列輸入 **`hclaude`**，取代原本的 `claude`；或是
+- 在資料夾上按右鍵，選「**在 Herdr 開啟 Claude**」
+
+Claude Code 就會以這個資料夾開在 Herdr 裡。如果 Herdr 已經有這個專案的 space，會直接在裡面加一個 tab，不會重複建立。
+
+| | 原本在路徑列打 `claude` | 用 hclaude |
 |---|---|---|
-| How you start it | Type `claude` | Type `hclaude`, or right-click |
-| Where Claude runs | A separate console window | Inside Herdr, in the project's space |
-| Seeing its status | Switch to its window and look | Live in Herdr's agents list |
-| Notified when it needs you | No | Yes: a sound and a notification |
+| 怎麼開 | 路徑列打 `claude` | 路徑列打 `hclaude`，或按右鍵 |
+| Claude 開在哪裡 | 獨立的主控台視窗 | Herdr 裡，依專案分好 space |
+| 看得到狀態嗎 | 要自己切過去看 | Herdr 的 agents 清單即時顯示 |
+| 需要你時會通知嗎 | 不會 | 會，有提示音和通知 |
 
-## What it does
+Claude 在等你回答問題或核准權限時，會被排在 agents 清單最上面的「Needs you」。點一下就會跳到那個 Claude，直接回答：
 
-When you run `hclaude` in a folder, it:
+![點 agents 清單裡「Needs you」的 Claude，就會跳到它的畫面，看到它在問什麼](docs/screenshot-needs-you.png)
 
-1. Starts Herdr, or brings its window to the front if it's already running.
-2. Starts Claude Code in that folder, inside Herdr:
-   - If a Herdr space already points at the folder, Claude opens as a new tab in that space and the space is selected.
-   - Otherwise, a new space is created for the folder.
-3. Passes any arguments through to `claude`.
+## 功能
 
-| You type | Result |
+在某個資料夾執行 `hclaude` 時，它會：
+
+1. 開啟 Herdr；如果 Herdr 已經開著，就把視窗叫到前面。
+2. 在 Herdr 裡、以這個資料夾開 Claude Code：
+   - 如果已經有 space 對應到這個資料夾，就在那個 space 加一個 tab，並切換過去。
+   - 如果還沒有，就為這個資料夾建立新的 space。
+3. 把你給的參數原樣傳給 `claude`。
+
+| 你打的 | 結果 |
 |---|---|
-| `hclaude` | Claude Code in this folder, in Herdr |
-| `hclaude --continue` | Continue the most recent conversation in this folder |
-| `hclaude --resume` | Pick a past conversation to resume |
+| `hclaude` | 在 Herdr 裡，以這個資料夾開 Claude Code |
+| `hclaude --continue` | 接上這個資料夾最近一次的對話 |
+| `hclaude --resume` | 從清單挑選要接續的對話 |
 
-It works from File Explorer's address bar, `cmd`, Windows PowerShell 5.1 and PowerShell 7.
+檔案總管路徑列、`cmd`、Windows PowerShell 5.1 和 PowerShell 7 都可以使用。
 
-### Right-click menu
+### 右鍵選單
 
-You can also right-click a folder, or empty space inside one, and choose **Open Claude in Herdr**. This does the same as typing `hclaude` there.
+在資料夾上按右鍵，或在資料夾內的空白處按右鍵，選 **在 Herdr 開啟 Claude**。效果跟在那裡打 `hclaude` 一樣。
 
-- **Windows 11:** the item is under **Show more options**. Shift+right-click opens that menu directly. Windows 11 doesn't let apps add items to its new top-level menu through the registry.
-- The label follows your Windows display language: 在 Herdr 開啟 Claude (Traditional Chinese), 在 Herdr 中打开 Claude (Simplified Chinese), and English otherwise.
+- **Windows 11**：這個項目在「**顯示更多選項**」裡面，也可以按 **Shift + 右鍵** 直接打開。Windows 11 不讓應用程式透過登錄檔把項目加到新版選單的第一層。
+- 選單名稱會依 Windows 顯示語言而定：繁體中文顯示「在 Herdr 開啟 Claude」，簡體中文顯示「在 Herdr 中打开 Claude」，其他語言顯示「Open Claude in Herdr」。
 
-## Requirements
+## 需求
 
-- Windows 10 or 11
-- [Herdr](https://herdr.dev), the desktop app (installed per user, or `herdr-app.exe` on your `PATH`)
-- [PowerShell 7](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows) (`pwsh`): `winget install Microsoft.PowerShell`
-- [Claude Code](https://claude.com/claude-code), with `claude` on your `PATH`
+- Windows 10 或 11
+- [Herdr](https://herdr.dev) 桌面 app（預設的個人安裝，或 `herdr-app.exe` 在 `PATH` 裡）
+- [PowerShell 7](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows)（`pwsh`）：`winget install Microsoft.PowerShell`
+- [Claude Code](https://claude.com/claude-code)，而且 `claude` 指令在 `PATH` 裡
 
-## Install
+## 安裝
 
-Run this in PowerShell:
+在 PowerShell 執行：
 
 ```powershell
 irm https://raw.githubusercontent.com/wjfans/hclaude/main/install.ps1 | iex
 ```
 
-The installer:
+安裝程式會：
 
-- copies `hclaude.cmd` and `hclaude-run.ps1` to `%USERPROFILE%\.local\bin`
-- adds that folder to your user `PATH` if it isn't there yet
-- adds the File Explorer right-click menu item (for your user only; no admin rights needed)
-- tells you if PowerShell 7, Herdr or Claude Code is missing
+- 把 `hclaude.cmd` 和 `hclaude-run.ps1` 複製到 `%USERPROFILE%\.local\bin`
+- 如果這個資料夾還不在使用者 `PATH` 裡，就把它加進去
+- 加入檔案總管的右鍵選單項目（只套用在目前使用者，不需要系統管理員權限）
+- 檢查 PowerShell 7、Herdr、Claude Code 有沒有裝，缺少的會提醒你
 
-If File Explorer doesn't find `hclaude` right after you install it, sign out and back in once. To update, run the same command again.
+裝好後，如果在檔案總管打 `hclaude` 沒有反應，請登出再登入一次。要更新到新版本時，再執行一次同樣的指令就好。
 
-### Manual install
+### 手動安裝
 
-1. Download [`hclaude.cmd`](hclaude.cmd) and [`hclaude-run.ps1`](hclaude-run.ps1). Use the download button on each file's page; don't copy and paste the text.
-2. Put both files in the same folder on your `PATH`.
-3. If you downloaded them in a browser, unblock them: `Get-ChildItem <folder>\hclaude* | Unblock-File`.
+1. 下載 [`hclaude.cmd`](hclaude.cmd) 和 [`hclaude-run.ps1`](hclaude-run.ps1)。請用各檔案頁面上的下載按鈕，不要用複製貼上。
+2. 把兩個檔案放在同一個資料夾，而且這個資料夾要在 `PATH` 裡。
+3. 如果是用瀏覽器下載的，請解除封鎖：`Get-ChildItem <資料夾>\hclaude* | Unblock-File`。
 
-A manual install doesn't add the right-click menu. Use the installer if you want it.
+手動安裝不會加入右鍵選單。需要右鍵選單的話，請改用上面的安裝程式。
 
-Keep `hclaude-run.ps1` saved as **UTF-8 with BOM**. Without the BOM, Windows PowerShell 5.1 can't read its non-ASCII comments and messages. If you edit the file, make sure your editor keeps the BOM.
+`hclaude-run.ps1` 必須保持 **UTF-8 with BOM** 編碼，否則 Windows PowerShell 5.1 會把裡面的中文讀成亂碼。自己修改這個檔案時，請確認編輯器存檔後 BOM 還在。
 
-## How it works
+## 運作方式
 
-- `hclaude.cmd` is the command you type. It launches `hclaude-run.ps1` with `pwsh -ExecutionPolicy Bypass` in a hidden window of its own. That way your PowerShell execution policy doesn't matter, and the window you typed in stays as it is.
-- `hclaude-run.ps1` uses the `herdr-app` CLI:
-  - `herdr-app ls` finds an existing space for the folder.
-  - `herdr-app do space.new` or `herdr-app do tab.new` starts `claude` there.
-- The right-click item is a per-user shell verb at `HKCU\Software\Classes\Directory\shell\hclaude`, and at `...\Directory\Background\shell\hclaude` for empty space inside a folder. It runs `cmd.exe /d /c cd /d "%V" && "<install folder>\hclaude.cmd"`.
-- The logic script is deliberately not named `hclaude.ps1`. PowerShell runs a `.ps1` before a `.cmd` with the same name, so that name would put the script under your execution policy again.
+- `hclaude.cmd` 是你實際輸入的指令。它用 `pwsh -ExecutionPolicy Bypass` 另開一個隱藏的視窗，執行 `hclaude-run.ps1`。所以不受 PowerShell 執行原則影響，也不會動到你打指令的那個視窗。
+- `hclaude-run.ps1` 透過 `herdr-app` 的命令列工具操作 Herdr：
+  - 用 `herdr-app ls` 找出是否已經有這個資料夾的 space。
+  - 用 `herdr-app do space.new` 或 `herdr-app do tab.new` 在那裡開 `claude`。
+- 右鍵選單是寫在目前使用者登錄檔裡的 shell 動詞：`HKCU\Software\Classes\Directory\shell\hclaude`，以及資料夾內空白處用的 `...\Directory\Background\shell\hclaude`。它執行的是 `cmd.exe /d /c cd /d "%V" && "<安裝資料夾>\hclaude.cmd"`。
+- 邏輯檔刻意不叫 `hclaude.ps1`。PowerShell 遇到同名的 `.ps1` 和 `.cmd` 時會先執行 `.ps1`，取這個名字的話又會受到執行原則限制。
 
-## Troubleshooting
+## 疑難排解
 
-| Symptom | Fix |
+| 狀況 | 解法 |
 |---|---|
-| `'hclaude' is not recognized` | The install folder isn't on `PATH` in that window yet. Open a new window, or sign out and back in. |
-| `hclaude needs PowerShell 7` | `winget install Microsoft.PowerShell` |
-| Error dialog: can't find Herdr / `claude` | Install the missing program, or put it on your `PATH`. |
-| Error dialog: Herdr did not respond within 30 seconds | Start Herdr once by hand and check that it opens. |
-| A new space every time, instead of a new tab | A space matches only while its first terminal is still in that folder. If you `cd` somewhere else in it, `hclaude` creates a new space. |
+| 「無法辨識 'hclaude'」 | 這個視窗的 `PATH` 還沒包含安裝資料夾。開一個新視窗，或登出再登入。 |
+| 出現 `hclaude needs PowerShell 7` | 執行 `winget install Microsoft.PowerShell` |
+| 跳出「找不到 Herdr」或「找不到 claude 指令」 | 安裝缺少的程式，或把它加進 `PATH`。 |
+| 跳出「Herdr 沒有在 30 秒內回應」 | 先手動開一次 Herdr，確認它能正常啟動。 |
+| 每次都開新的 space，而不是加 tab | space 的資料夾是看它第一個終端機目前所在的位置。如果你在那個終端機 `cd` 到別處，就比對不到原本的資料夾，`hclaude` 會另開新的 space。 |
 
-## Uninstall
+## 移除
 
 ```powershell
 irm https://raw.githubusercontent.com/wjfans/hclaude/main/uninstall.ps1 | iex
 ```
 
-This removes both scripts and the right-click menu item. `%USERPROFILE%\.local\bin` stays on your `PATH`, because other tools, such as Claude Code's own installer, use that folder too.
+這會刪除兩個腳本和右鍵選單項目。`%USERPROFILE%\.local\bin` 會留在 `PATH` 裡，因為其他工具（例如 Claude Code 自己的安裝程式）也會使用這個資料夾。
 
-## License
+## 授權
 
 [MIT](LICENSE)
 
-This is an unofficial community tool. It is not affiliated with Anthropic or with Herdr.
+這是非官方的社群工具，與 Anthropic 和 Herdr 沒有任何關係。
