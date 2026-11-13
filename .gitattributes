@@ -1,0 +1,6 @@
+* text=auto
+
+# Windows scripts: stored with CRLF and never converted, so clones and raw
+# downloads (install.ps1) get exactly the committed bytes.
+*.cmd -text
+*.ps1 -text
