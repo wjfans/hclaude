@@ -2,7 +2,7 @@
 
 [English](README.md) | **繁體中文**
 
-在 Windows 上，從任何資料夾直接開 [Claude Code](https://claude.com/claude-code)，而且開在 [Herdr](https://herdr.dev) 裡：在檔案總管的路徑列打 `hclaude`，按 Enter 就好。
+在 Windows 上，從任何資料夾直接開 [Claude Code](https://claude.com/claude-code)，而且開在 [Herdr](https://herdr.dev) 裡：在檔案總管的路徑列打 `hclaude`，或在資料夾上按右鍵。
 
 在檔案總管路徑列打 `claude`，Claude 會開在一般的主控台視窗裡。Herdr 只能管理它自己開的終端機，所以這種 Claude 不會出現在 Herdr 的 spaces 或 agents 清單裡。想在 Herdr 裡開，原本要先開 Herdr、複製資料夾路徑、`cd` 過去，再打 `claude`。`hclaude` 把這些步驟合成一步。
 
@@ -24,6 +24,13 @@
 
 檔案總管路徑列、`cmd`、Windows PowerShell 5.1 和 PowerShell 7 都可以使用。
 
+### 右鍵選單
+
+在資料夾上按右鍵，或在資料夾內的空白處按右鍵，選 **在 Herdr 開啟 Claude**。效果跟在那裡打 `hclaude` 一樣。
+
+- **Windows 11**：這個項目在「**顯示更多選項**」裡面，也可以按 **Shift + 右鍵** 直接打開。Windows 11 不讓應用程式透過登錄檔把項目加到新版選單的第一層。
+- 選單名稱會依 Windows 顯示語言而定：繁體中文顯示「在 Herdr 開啟 Claude」，簡體中文顯示「在 Herdr 中打开 Claude」，其他語言顯示「Open Claude in Herdr」。
+
 ## 需求
 
 - Windows 10 或 11
@@ -43,15 +50,18 @@ irm https://raw.githubusercontent.com/wjfans/hclaude/main/install.ps1 | iex
 
 - 把 `hclaude.cmd` 和 `hclaude-run.ps1` 複製到 `%USERPROFILE%\.local\bin`
 - 如果這個資料夾還不在使用者 `PATH` 裡，就把它加進去
+- 加入檔案總管的右鍵選單項目（只套用在目前使用者，不需要系統管理員權限）
 - 檢查 PowerShell 7、Herdr、Claude Code 有沒有裝，缺少的會提醒你
 
-裝好後，如果在檔案總管打 `hclaude` 沒有反應，請登出再登入一次。
+裝好後，如果在檔案總管打 `hclaude` 沒有反應，請登出再登入一次。要更新到新版本時，再執行一次同樣的指令就好。
 
 ### 手動安裝
 
 1. 下載 [`hclaude.cmd`](hclaude.cmd) 和 [`hclaude-run.ps1`](hclaude-run.ps1)。請用各檔案頁面上的下載按鈕，不要用複製貼上。
 2. 把兩個檔案放在同一個資料夾，而且這個資料夾要在 `PATH` 裡。
 3. 如果是用瀏覽器下載的，請解除封鎖：`Get-ChildItem <資料夾>\hclaude* | Unblock-File`。
+
+手動安裝不會加入右鍵選單。需要右鍵選單的話，請改用上面的安裝程式。
 
 `hclaude-run.ps1` 必須保持 **UTF-8 with BOM** 編碼，否則 Windows PowerShell 5.1 會把裡面的中文讀成亂碼。自己修改這個檔案時，請確認編輯器存檔後 BOM 還在。
 
@@ -61,6 +71,7 @@ irm https://raw.githubusercontent.com/wjfans/hclaude/main/install.ps1 | iex
 - `hclaude-run.ps1` 透過 `herdr-app` 的命令列工具操作 Herdr：
   - 用 `herdr-app ls` 找出是否已經有這個資料夾的 space。
   - 用 `herdr-app do space.new` 或 `herdr-app do tab.new` 在那裡開 `claude`。
+- 右鍵選單是寫在目前使用者登錄檔裡的 shell 動詞：`HKCU\Software\Classes\Directory\shell\hclaude`，以及資料夾內空白處用的 `...\Directory\Background\shell\hclaude`。它執行的是 `cmd.exe /d /c cd /d "%V" && "<安裝資料夾>\hclaude.cmd"`。
 - 邏輯檔刻意不叫 `hclaude.ps1`。PowerShell 遇到同名的 `.ps1` 和 `.cmd` 時會先執行 `.ps1`，取這個名字的話又會受到執行原則限制。
 
 ## 疑難排解
@@ -76,10 +87,10 @@ irm https://raw.githubusercontent.com/wjfans/hclaude/main/install.ps1 | iex
 ## 移除
 
 ```powershell
-Remove-Item "$env:USERPROFILE\.local\bin\hclaude.cmd", "$env:USERPROFILE\.local\bin\hclaude-run.ps1"
+irm https://raw.githubusercontent.com/wjfans/hclaude/main/uninstall.ps1 | iex
 ```
 
-安裝程式可能也把 `%USERPROFILE%\.local\bin` 加進了使用者 `PATH`。其他工具（例如 Claude Code 自己的安裝程式）也會使用這個資料夾，要從 `PATH` 移除前請先確認。
+這會刪除兩個腳本和右鍵選單項目。`%USERPROFILE%\.local\bin` 會留在 `PATH` 裡，因為其他工具（例如 Claude Code 自己的安裝程式）也會使用這個資料夾。
 
 ## 授權
 
